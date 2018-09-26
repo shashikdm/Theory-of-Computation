@@ -6,7 +6,7 @@ python3, pickle library
 
 first commit: dfa, human readable text to class file (DFA_Designer) and testing strings ((DFA_Tester)
 
-<text file in valid syntax> -> DFA_Designer -> binary file -> DFA_Tester -> String(ACCEPT/REFECT)
+text file in valid syntax -> DFA_Designer -> binary file -> DFA_Tester -> String(ACCEPT/REFECT)
 
 How to run?
 
