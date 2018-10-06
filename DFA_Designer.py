@@ -22,9 +22,7 @@ if __name__ == "__main__":
     inputstring = inputfile.read().split('\n\n'); #splits the tuple
     check_syntax(0,4,"Q = ") #checking for syntax
     try:
-        dfa.Q = int(inputstring[0][4:]) #No. of states checking if integer
-        if dfa.Q < 1:
-            raise Exception()
+        dfa.Q = inputstring[0][4:].split() #No. of states checking if integer
     except:
         print("SYNTAX ERROR IN LINE 1\n")
         sys.exit()
@@ -36,31 +34,31 @@ if __name__ == "__main__":
         sys.exit()
     check_syntax(2,19,"Transition Table =\n")
     try:
-        dfa.Transition = [] #construction of transition table
+        dfa.Transition = {} #construction of transition table
         inputstring[2] = inputstring[2][19:].split('\n')
         inputstring[2][0] = inputstring[2][0].split('\t')
-        for i in range(1, dfa.Q+1):
+        for i in range(1, len(dfa.Q)+1):
             inputstring[2][i] = inputstring[2][i].split('\t')
             transition = {}
             j = 1;
             for x in inputstring[2][0][1:]:
-                transition[x] = int(inputstring[2][i][j])
+                transition[x] = inputstring[2][i][j]
                 j = j + 1
-            dfa.Transition.append(transition)
+            dfa.Transition[inputstring[2][i][0]] = transition
     except:
         print("SYNTAX ERROR IN TRANSITION TABLE\n")
         sys.exit()
     check_syntax(3,8,"Start = ")
     try:
-        dfa.Start = int(inputstring[3][8:]) #start state
-        if dfa.Start < 0 or dfa.Start >= dfa.Q:
+        dfa.Start = inputstring[3][8:] #start state
+        if dfa.Start not in dfa.Q:
             raise Exception()
     except:
         print("SYNTAX ERROR IN LINE 4\n")
         sys.exit()
     check_syntax(4,8,"Final = ")
     try:
-        dfa.Final = [int(x) for x in inputstring[4][8:].split()] #final states
+        dfa.Final = inputstring[4][8:].split() #final states
     except:
         print("SYNTAX ERROR IN LINE 5\n")
         sys.exit()

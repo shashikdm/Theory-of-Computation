@@ -20,7 +20,7 @@ if __name__ == "__main__":
             print('ACCEPTED')
         else:
             print('REJECTED')
-        choice = input('DO YOU WANT TO CONTINUE?(y/n)') #ask user whether to continue or not
+        choice = input('DO YOU WANT TO CONTINUE?(y/n): ') #ask user whether to continue or not
         if choice == 'y':
             continue
         else:

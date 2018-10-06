@@ -1,4 +1,4 @@
-Q = 2
+Q = 0 1
 
 Alphabet = 0 1
 
