@@ -46,34 +46,43 @@ if __name__ == "__main__":
     #make new dfa 
     mindfa = DFA()
     #making dfa.Q
-    for i in range(0,len(dfa.Q)-1):
+    already_included = []
+    for i in range(0,len(dfa.Q)):
         x = dfa.Q[i]
-        if mindfa.Q != [] and x in str(mindfa.Q):
+        if x in already_included:
             continue
+        already_included.append(x)
         mindfa.Q.append(x)
         for j in range(i+1,len(dfa.Q)):
             y = dfa.Q[j]
             if table.content[(x,y)] == 0:
-                mindfa.Q[-1] = mindfa.Q[-1] + '-' + y
+                mindfa.Q[-1] = mindfa.Q[-1] + 'combined-with' + y
+                already_included.append(y)
     #alphabet will be same
     mindfa.Alphabet = dfa.Alphabet
     #make the transition table
     for x in mindfa.Q:
-        temp = x.split('-')[0]
+        temp = x.split('combined-with')[0]
+        x = x.replace('combined-with','-')
         mindfa.Transition[x] = {}
         for y in mindfa.Alphabet:
             for z in mindfa.Q:
-                if dfa.Transition[temp][y] in z:
+                if temp in dfa.Q and dfa.Transition[temp][y] in z:
+                    z = z.replace('combined-with','-')
                     mindfa.Transition[x][y] = z;
     #starting state
     mindfa.Start = mindfa.Q[0]
     #final state
     for x in mindfa.Q:
-        temp = x.split('-')
+        temp = x.split('combined-with')
         for y in temp:
             if y in dfa.Final:
                 mindfa.Final.append(x)
                 break
+    #replacing combined-with with just -
+    mindfa.Q = [x.replace('combined-with','-') for x in mindfa.Q]
+    mindfa.Start = mindfa.Start.replace('combined-with','-')
+    mindfa.Final = [x.replace('combined-with','-') for x in mindfa.Final]
     with open(sys.argv[2],'w') as outputfile:
         outputfile.write('Q = ' + ' '.join(mindfa.Q) + '\n\n')
         outputfile.write('Alphabet = ' + ' '.join(mindfa.Alphabet) + '\n\n')
