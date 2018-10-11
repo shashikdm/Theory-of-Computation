@@ -1,0 +1,15 @@
+Q = 1 2 3 4 5
+
+Alphabet = 0 1
+
+Transition Table =
+	0	1
+1	2	3
+2	3	5
+3	4	3
+4	3	5
+5	2	5
+
+Start = 1
+
+Final = 3 5

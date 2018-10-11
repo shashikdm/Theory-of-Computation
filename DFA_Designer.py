@@ -17,6 +17,9 @@ def check_syntax(line, length, string):
 
 
 if __name__ == "__main__":
+    if sys.argv[1][-4:] != '.dfa':
+        print("UNEXPECTED INPUT FILE FORMAT\n")
+        sys.exit()
     dfa = DFA() #creates an object of class DFA
     inputfile = open(sys.argv[1], 'r') #opens input text file give first command line argument
     inputstring = inputfile.read().split('\n\n'); #splits the tuple
