@@ -6,7 +6,7 @@ python3, pickle library
 
 How to run?
 
-edit the 'input.txt' file and maintain the syntax as is
+edit the 'input1.dfa' file and maintain the syntax as is
 
 use command line arguments as follows:
 python3 DFA_Designer (input text file name) (output binary file name) <br/> 
