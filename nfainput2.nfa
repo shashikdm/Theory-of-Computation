@@ -1,0 +1,13 @@
+Q = q0 q1 q2
+
+Alphabet = 0 1
+
+Transition Table =
+	0	1
+q0	q0	q0 q1
+q1	q2	q2
+q2		
+
+Start = q0
+
+Final = q2

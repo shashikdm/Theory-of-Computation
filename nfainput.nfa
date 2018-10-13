@@ -1,0 +1,13 @@
+Q = p q r
+
+Alphabet = 0 1
+
+Transition Table =
+	0	1
+p	p q	p
+q		r
+r	p r	q
+
+Start = p
+
+Final = r

@@ -88,9 +88,9 @@ if __name__ == "__main__":
         outputfile.write('Alphabet = ' + ' '.join(mindfa.Alphabet) + '\n\n')
         outputfile.write('Transition Table =\n\t' + '\t'.join(mindfa.Alphabet) + '\n')
         for x in mindfa.Q:
-            outputfile.write(x + '\t')
+            outputfile.write(x)
             for y in mindfa.Alphabet:
-                outputfile.write(mindfa.Transition[x][y] + '\t')
+                outputfile.write('\t' + mindfa.Transition[x][y])
             outputfile.write('\n')
         outputfile.write('\n')
         outputfile.write('Start = ' + mindfa.Start + '\n\n')
