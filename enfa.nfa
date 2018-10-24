@@ -1,0 +1,17 @@
+Q = 1 2 3 4 5 6 7
+
+Alphabet = a b
+
+Transition Table =
+	a	b	eps
+1			2 4
+2			3
+3			6
+4	5		
+5		6	7
+6			
+7			
+
+Start = 1
+
+Final = 6

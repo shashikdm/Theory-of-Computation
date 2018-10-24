@@ -9,7 +9,6 @@ import pickle #pickle to sae and load binary file
 import sys #for command lines
 from DFA_CLASS import DFA as NFA #class file for DFA
 from DFA_CLASS import DFA
-from collections import Counter
 
 def check_syntax(line, length, string):
     if inputstring[line][0:length] != string: #checking for syntax
@@ -66,23 +65,44 @@ if __name__ == "__main__":
     except:
         print("SYNTAX ERROR IN LINE 5\n")
         sys.exit()
+    #Compute EClose of all the states
+    eclose = {}
+    for x in nfa.Q:
+        eclose[x] = [x]
+        flag = True
+        while flag :
+            flag = False
+            for y in eclose[x]:
+                next_states = nfa.Transition[y]['eps'];
+                if next_states!='':
+                    next_states = next_states.split();
+                    for z in next_states:
+                        if z not in eclose[x]:
+                            eclose[x].append(z)
+                            flag = True
+    eclose[''] = ['']
+    for x in eclose:
+        eclose[x].sort()
+#%%
     #Lazy evaluation starts here
     dfa = DFA()
-    dfa.Start = '{' + nfa.Start + '}'
+    dfa.Start = '{' + '-'.join(eclose[nfa.Start]) + '}'
     dfa.Q.append(dfa.Start)
     dfa.Alphabet = nfa.Alphabet;
     while True:
         finished = True
+        print(dfa.Q)
         for x in dfa.Q:
+            print(x)
             if dfa.Transition.get(x) == None:
                 if x != '{}':
-                    print(x+'+')
                     finished = False
                     current_state = x[1:-1].split('-')
                     dfa.Transition['{'+'-'.join(current_state)+'}'] = {}
                     break
                 else:
                     transition = {};
+                    finished = False
                     for y in dfa.Alphabet:
                         transition[y] ='{}'
                     dfa.Transition[x] = transition
@@ -92,18 +112,23 @@ if __name__ == "__main__":
         for y in nfa.Alphabet:
             new_state = ''
             for x in current_state:
-                transition = ''
-                for z in nfa.Transition[x][y].split():
-                    if z not in new_state:
-                        if transition == '':
-                            transition = z
-                        else:
-                            transition = transition + '-' +z 
-                if new_state != '' and transition != '':
-                    new_state = new_state +'-'+ transition
-                elif transition!='':
-                    new_state = transition
+                for ex in eclose[x]:
+                    transition = ''
+                    for z in nfa.Transition[ex][y].split():
+                        if z not in new_state:
+                            if transition == '':
+                                transition = z
+                            else:
+                                transition = transition + '-' +z 
+                    if new_state != '' and transition != '':
+                        new_state = new_state +'-'+ transition
+                    elif transition!='':
+                        new_state = transition
             new_state = new_state.split('-')
+            temp = []
+            for z in new_state:
+                temp = temp + eclose[z]
+            new_state = temp
             new_state.sort()
             new_state = '-'.join(new_state)
             if new_state not in [y[1:-1] for y in dfa.Q]:
@@ -112,9 +137,9 @@ if __name__ == "__main__":
     for x in dfa.Q:
         for y in nfa.Final:
             if y in x:
-                dfa.Final.append(x)
+                dfa.Final = dfa.Final + eclose[y]
     #write into a file
-    #%%
+#%%
     with open(sys.argv[2],'w') as outputfile:
         outputfile.write('Q = ' + ' '.join(dfa.Q) + '\n\n')
         outputfile.write('Alphabet = ' + ' '.join(dfa.Alphabet) + '\n\n')
