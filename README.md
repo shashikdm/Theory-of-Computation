@@ -1,4 +1,4 @@
-# Theory-of-Coputation
+# Theory of Computation
 
 ## Theory of computation, also known as Automata theory is a branch of computer science which deals with simple machines.
 ## This project consists of python programs to perform various algorithms such as subset construction, lazy evaluation, table filling algorithm and even simulate your own DFA!  
